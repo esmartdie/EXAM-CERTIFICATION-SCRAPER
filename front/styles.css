@@ -1,0 +1,119 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a.active {
+    background-color: #555;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+    margin-bottom: 60px; /* Añadir margen inferior */
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.module-content {
+    display: block;
+}
+
+
+.correct {
+    color: green;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.incorrect {
+    color: red;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+.explanation {
+    background-color: #c1d3fe;
+    border: 1px solid #b0c4de;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+/* Desde aquí las Smart Cards */
+.card {
+    background-color: #edf2fb;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card:hover {
+    background-color: #d7e3fc;
+}
+
+.card-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+.card-body {
+    padding: 2em;
+}
+
+.card-text {
+    display: none; /* Ocultar el texto completo por defecto */
+}
+
+.carousel-item {
+    text-align: center;
+}
+
+.carousel-inner {
+    height: 500px; /* Ajusta el tamaño según tus necesidades */
+}
+
