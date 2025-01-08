@@ -14,7 +14,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 def setup_browser():
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    ##options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -59,7 +59,7 @@ def get_max_questions(browser, user_requirement_file):
         return int(max_question)
 
 
-def search_question(browser, query):
+def search_question_google(browser, query):
     search_url = "https://www.google.com"
     browser.get(search_url)
 
@@ -80,6 +80,11 @@ def search_question(browser, query):
     search_box.send_keys(query)
     search_box.submit()
     time.sleep(random.uniform(2, 7))
+
+    if "detected unusual traffic" in browser.page_source.lower():
+        print("Google detectó tráfico inusual. Cambiando a Bing...")
+        return None
+
     try:
         links = browser.find_elements(By.XPATH, '//a[@href]')
         for link in links:
@@ -88,6 +93,26 @@ def search_question(browser, query):
                 return href
     except Exception as e:
         print(f"Error al buscar enlaces: {e}")
+
+    return None
+
+def search_question_bing(browser, query):
+    search_url = "https://www.bing.com"
+    browser.get(search_url)
+
+    search_box = browser.find_element(By.NAME, "q")
+    search_box.send_keys(query)
+    search_box.submit()
+    time.sleep(random.uniform(2, 7))
+
+    try:
+        links = browser.find_elements(By.XPATH, '//a[@href]')
+        for link in links:
+            href = link.get_attribute("href")
+            if "https://www.examtopics.com/" in href:
+                return href
+    except Exception as e:
+        print(f"Error al buscar enlaces en Bing: {e}")
 
     return None
 
@@ -217,6 +242,8 @@ def extract_urls(browser, csv_file, max_questions, user_requirement_file):
         print("Extracción de URLs ya completada previamente.")
         return
 
+    use_google = True
+
     try:
         print(f"Comenzando desde la pregunta {start_question + 1}.")
         for question_number in range(start_question + 1, max_questions + 1):
@@ -224,7 +251,15 @@ def extract_urls(browser, csv_file, max_questions, user_requirement_file):
             print(f"Buscando: {query}")
 
             try:
-                url = search_question(browser, query)
+                if use_google:
+                    url = search_question_google(browser, query)
+                    if not url:
+                        print(f"Google no pudo encontrar resultados. Cambiando a Bing para la pregunta {question_number}.")
+                        use_google = False
+                        continue
+                else:
+                    url = search_question_bing(browser, query)
+
                 if url:
                     progress_data = pd.concat([
                         progress_data,
@@ -242,12 +277,62 @@ def extract_urls(browser, csv_file, max_questions, user_requirement_file):
                 continue
 
         if (start_question+1) == max_questions:
+            missing_questions = verify_missing_questions(progress_data, max_questions)
+            if missing_questions:
+                print(f"Algunas preguntas no fueron encontradas: {missing_questions}. Intentando buscarlas nuevamente...")
+                search_missing_questions(browser, missing_questions, progress_data, csv_file, exam)
+            else:
+                print("Todas las preguntas fueron encontradas correctamente.")
+
             user_requirements["extract_csv_finished"] = "True"
             save_user_requirements(user_requirements, user_requirement_file)
             print("Extracción de URLs completada y estado actualizado en el JSON.")
 
     except Exception as e:
         print(f"Error general durante la extracción: {str(e)}")
+
+
+def verify_missing_questions(progress_data, max_questions):
+
+    found_questions = progress_data["Pregunta"].apply(lambda x: int(x.split("#: ")[1])).tolist()
+    all_questions = set(range(1, max_questions + 1))
+    missing_questions = list(all_questions - set(found_questions))
+    return missing_questions
+
+
+def search_missing_questions(browser, missing_questions, progress_data, csv_file, exam):
+
+    for question_number in missing_questions:
+        query = f"exam {exam} topic 1 question {question_number} discussion"
+        print(f"Reintentando búsqueda para la pregunta {question_number}: {query}")
+
+        use_google = True
+
+        try:
+            if use_google:
+                url = search_question_google(browser, query)
+                if not url:
+                    print(f"Google no pudo encontrar resultados. Cambiando a Bing para la pregunta {question_number}.")
+                    use_google = False
+                    continue
+            else:
+                url = search_question_bing(browser, query)
+
+            if url:
+                progress_data = pd.concat([
+                    progress_data,
+                    pd.DataFrame([[f"Question #: {question_number}", url, False]], columns=["Pregunta", "URL", "Scraping"])
+                ]).reset_index(drop=True)
+                save_csv_progress(progress_data, csv_file)
+                print(f"Pregunta {question_number}: URL encontrada.")
+            else:
+                print(f"Pregunta {question_number}: No se encontró URL en Google ni en Bing.")
+
+            time.sleep(random.uniform(2, 8))
+
+        except Exception as e:
+            print(f"Error al procesar la pregunta {question_number}: {str(e)}")
+            continue
 
 
 def scrape_question_info(browser, csv_file, json_output_file, user_requirement_file):

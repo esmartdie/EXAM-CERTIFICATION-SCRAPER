@@ -2,6 +2,6 @@
     "exam": "AZ900",
     "exam_main_url": "https://www.examtopics.com/exams/microsoft/az-900/",
     "max_question": "474",
-    "extract_csv_finished": "False",
+    "extract_csv_finished": "True",
     "scrap_json_finished": "False"
 }

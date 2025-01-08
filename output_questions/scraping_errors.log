@@ -2038,3 +2038,27 @@ Stacktrace:
 	BaseThreadInitThunk [0x00007FFB033F259D+29]
 	RtlUserThreadStart [0x00007FFB042AAF38+40]
 
+Question #: 473, https://www.examtopics.com/exams/microsfot/az-900/view/48/, Error al cargar la página https://www.examtopics.com/exams/microsfot/az-900/view/48/: Message: 
+Stacktrace:
+	GetHandleVerifier [0x00007FF6774C6CB5+28821]
+	(No symbol) [0x00007FF677433840]
+	(No symbol) [0x00007FF6772D578A]
+	(No symbol) [0x00007FF6773291BE]
+	(No symbol) [0x00007FF6773294AC]
+	(No symbol) [0x00007FF677372647]
+	(No symbol) [0x00007FF67734F33F]
+	(No symbol) [0x00007FF67736F412]
+	(No symbol) [0x00007FF67734F0A3]
+	(No symbol) [0x00007FF67731A778]
+	(No symbol) [0x00007FF67731B8E1]
+	GetHandleVerifier [0x00007FF6777FFCAD+3408013]
+	GetHandleVerifier [0x00007FF67781741F+3504127]
+	GetHandleVerifier [0x00007FF67780B5FD+3455453]
+	GetHandleVerifier [0x00007FF67758BDBB+835995]
+	(No symbol) [0x00007FF67743EB5F]
+	(No symbol) [0x00007FF67743A814]
+	(No symbol) [0x00007FF67743A9AD]
+	(No symbol) [0x00007FF67742A199]
+	BaseThreadInitThunk [0x00007FFB033F259D+29]
+	RtlUserThreadStart [0x00007FFB042AAF38+40]
+
