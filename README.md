@@ -121,9 +121,21 @@ To tweak the search query or results filtering, update the `search_question_goog
 3. **Missing Elements**:
    If the webpage structure changes, update the HTML element selectors in the scraping functions.
 
-### Run Exam Demo
+## Run Exam Demo
 
-Using VisualStudio Code, run "home" using "Open live Server" extension
+Using VisualStudio Code, run "home" using "Open live Server" extension (Any doubt? click on gift play icon 🤓):
+
+<div>
+<p style = 'text-align:center;'>
+<img src="https://github.com/esmartdie/EXAM-CERTIFICATION-SCRAPER/blob/main/media/LiveServer.png" alt="none" width="1400px">
+</p>
+</div>
+</br>
+<div>
+<p style = 'text-align:center;'>
+<img src="https://github.com/esmartdie/EXAM-CERTIFICATION-SCRAPER/blob/main/media/LiveServerHomeRun.gif" alt="JuveYell" width="1400px">
+</p>
+</div>
 
 
 ## License
