@@ -1,3 +1,5 @@
+# Copyright (c) 2025 Diego Martins
+# Licensed under the MIT License. See LICENSE file in the project root for details.
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 

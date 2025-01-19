@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Diego Martins
+# Licensed under the MIT License. See LICENSE file in the project root for details.
+
 import os
 import json
 from FileManager import FileManager
